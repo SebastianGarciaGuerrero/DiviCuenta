@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Button, TextInput } from 'evergreen-ui'
+
 
 const Form = () => {
   // Definir el estado para los valores ingresados y los resultados
@@ -60,7 +62,7 @@ const Form = () => {
         <h2>Divi Cuentas</h2>
 
         <label htmlFor="cuenta">Gasto a pagar:</label>
-        <input
+        <TextInput
           type="text"
           id="cuenta"
           name="cuenta"
@@ -69,7 +71,7 @@ const Form = () => {
         />
 
         <label htmlFor="ingreso1">Primer Ingreso:</label>
-        <input
+        <TextInput
           type="text"
           id="ingreso1"
           name="ingreso1"
@@ -78,7 +80,7 @@ const Form = () => {
         />
 
         <label htmlFor="ingreso2">Segundo Ingreso:</label>
-        <input
+        <TextInput
           type="text"
           id="ingreso2"
           name="ingreso2"
@@ -86,7 +88,7 @@ const Form = () => {
           onChange={handleIngresoChange(setIngreso2)}
         />
 
-        <button type="submit">Calcular</button>
+        <Button type="submit">Calcular</Button>
       </form>
 
       {/* Mostrar los resultados si ya fueron calculados */}

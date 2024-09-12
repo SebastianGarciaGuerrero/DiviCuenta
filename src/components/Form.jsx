@@ -1,27 +1,20 @@
 import { useState } from "react";
-import { Button, TextInput } from 'evergreen-ui'
-
+import { Button, TextInput } from "evergreen-ui";
+import { useCurrencyFormatter } from "../hooks/useCurrencyFormatter";
+import { calcularPorcentajes } from "../utils/calculos";
 
 const Form = () => {
   // Definir el estado para los valores ingresados y los resultados
   const [ingreso1, setIngreso1] = useState("");
   const [ingreso2, setIngreso2] = useState("");
-  const [resultado, setResultado] = useState(null);
   const [porcentaje1, setPorcentaje1] = useState(null);
   const [porcentaje2, setPorcentaje2] = useState(null);
-  const [cuenta, setCuenta] = useState(""); // Aquí es importante usar 'cuenta'
+  const [cuenta, setCuenta] = useState("");
   const [cuenta1, setCuenta1] = useState("");
   const [cuenta2, setCuenta2] = useState("");
 
-  const formatearCLP = (valor) => {
-    return valor
-      ? valor.toLocaleString("es-CL", { style: "currency", currency: "CLP" })
-      : "";
-  };
-
-  const eliminarFormato = (valor) => {
-    return valor.replace(/\D/g, ""); // Elimina cualquier carácter no numérico
-  };
+  // Usar el hook para formatear valores CLP
+  const { formatearCLP, eliminarFormato } = useCurrencyFormatter();
 
   const handleIngresoChange = (setter) => (e) => {
     const valor = e.target.value;
@@ -42,14 +35,14 @@ const Form = () => {
       return;
     }
 
-    const suma = valor1 + valor2;
-    const porcentaje1 = (valor1 * 100) / suma;
-    const porcentaje2 = (valor2 * 100) / suma;
-    const cuenta1 = (porcentaje1 * totalCuenta) / 100;
-    const cuenta2 = (porcentaje2 * totalCuenta) / 100;
+    // Calcular porcentajes y cuentas
+    const { porcentaje1, porcentaje2, cuenta1, cuenta2 } = calcularPorcentajes(
+      valor1,
+      valor2,
+      totalCuenta
+    );
 
     // Actualizar el estado con los resultados
-    setResultado(suma);
     setPorcentaje1(porcentaje1);
     setPorcentaje2(porcentaje2);
     setCuenta1(cuenta1);
@@ -58,50 +51,87 @@ const Form = () => {
 
   return (
     <div>
-      <form onSubmit={calcularResultado}>
-        <h2>Divi Cuentas</h2>
+      <section id="form" className="py-10 flex items-center justify-center">
+        <form
+          onSubmit={calcularResultado}
+          className="flex flex-col items-center w-full max-w-md bg-gray-800 p-8 rounded-lg"
+        >
+          <h2 className="text-white mb-4 text-4xl sm:text-5xl lg:text-6xl font-extrabold">
+            Divi Cuentas
+          </h2>
+          <div className="mb-6">
+            <label
+              htmlFor="cuenta"
+              className="text-white block mb-2 text-sm font-medium"
+            >
+              Gasto a pagar:{" "}
+            </label>
+            <TextInput
+              type="text"
+              id="cuenta"
+              name="cuenta"
+              value={cuenta}
+              onChange={handleIngresoChange(setCuenta)}
+            />
+          </div>
 
-        <label htmlFor="cuenta">Gasto a pagar:</label>
-        <TextInput
-          type="text"
-          id="cuenta"
-          name="cuenta"
-          value={cuenta}
-          onChange={handleIngresoChange(setCuenta)}
-        />
+          <div className="mb-6">
+            <label
+              htmlFor="ingreso1"
+              className="text-white block mb-2 text-sm font-medium"
+            >
+              Primer Ingreso:{" "}
+            </label>
+            <TextInput
+              type="text"
+              id="ingreso1"
+              name="ingreso1"
+              value={ingreso1}
+              onChange={handleIngresoChange(setIngreso1)}
+            />
+          </div>
 
-        <label htmlFor="ingreso1">Primer Ingreso:</label>
-        <TextInput
-          type="text"
-          id="ingreso1"
-          name="ingreso1"
-          value={ingreso1}
-          onChange={handleIngresoChange(setIngreso1)}
-        />
+          <div className="mb-6">
+            <label
+              htmlFor="ingreso2"
+              className="text-white block mb-2 text-sm font-medium"
+            >
+              Segundo Ingreso:{" "}
+            </label>
+            <TextInput
+              type="text"
+              id="ingreso2"
+              name="ingreso2"
+              value={ingreso2}
+              onChange={handleIngresoChange(setIngreso2)}
+            />
+          </div>
 
-        <label htmlFor="ingreso2">Segundo Ingreso:</label>
-        <TextInput
-          type="text"
-          id="ingreso2"
-          name="ingreso2"
-          value={ingreso2}
-          onChange={handleIngresoChange(setIngreso2)}
-        />
-
-        <Button type="submit">Calcular</Button>
-      </form>
-
+          <Button
+            type="submit"
+            className="h-10 w-20 flex items-center justify-center"
+          >
+            Calcular
+          </Button>
+        </form>
+      </section>
       {/* Mostrar los resultados si ya fueron calculados */}
-      {resultado !== null && (
-        <div>
-          <p>
-            A la primera persona le corresponde pagar: {porcentaje1.toFixed(2)}%
-            del total, lo que corresponde a: {formatearCLP(cuenta1)}
-          </p>
-          <p>
-            A la segunda persona le corresponde pagar: {porcentaje2.toFixed(2)}%
-            del total, lo que corresponde a: {formatearCLP(cuenta2)}
-          </p>
+      {porcentaje1 !== null && porcentaje2 !== null && (
+        <div className="flex flex-col items-center justify-center w-full">
+          <div className="text-center bg-gray-800 max-w-md w-full p-6 rounded-xl mx-auto">
+            <p className="mb-5 text-white">
+              A la primera persona le corresponde pagar:{" "}
+              {porcentaje1.toFixed(0)}% del total
+              <br />
+              lo que corresponde a: {formatearCLP(cuenta1)}
+            </p>
+            <p className="mb-5 text-white">
+              A la segunda persona le corresponde pagar:{" "}
+              {porcentaje2.toFixed(0)}% del total
+              <br />
+              lo que corresponde a: {formatearCLP(cuenta2)}
+            </p>
+          </div>
         </div>
       )}
     </div>

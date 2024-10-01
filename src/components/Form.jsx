@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Button, TextInput } from "evergreen-ui";
 import { useCurrencyFormatter } from "../hooks/useCurrencyFormatter";
+import { IoPersonAddOutline } from "react-icons/io5";
+import { IoPersonRemoveOutline } from "react-icons/io5";
 
 const Form = () => {
   // Definir el estado para los valores ingresados y los resultados
@@ -31,7 +33,7 @@ const Form = () => {
 
     const totalCuenta = parseFloat(eliminarFormato(cuenta)); // Asegurarse que 'cuenta' es un número válido
 
-    if (isNaN(totalCuenta)) {
+    if (isNaN(Number(totalCuenta))) {
       alert("Por favor, ingresa un número válido para el total a pagar");
       return;
     }
@@ -48,7 +50,10 @@ const Form = () => {
     }
 
     // Sumar los ingresos para calcular los porcentajes
-    const totalIngresos = ingresosNumericos.reduce((acc, curr) => acc + curr, 0);
+    const totalIngresos = ingresosNumericos.reduce(
+      (acc, curr) => acc + curr,
+      0
+    );
 
     if (totalIngresos === 0) {
       alert("Los ingresos no pueden ser cero");
@@ -73,17 +78,17 @@ const Form = () => {
       <section id="form" className="py-10 flex items-center justify-center">
         <form
           onSubmit={calcularResultado}
-          className="flex flex-col items-center w-full max-w-md bg-gray-800 p-8 rounded-lg"
+          className="flex flex-col items-center w-full max-w-md bg-white p-8 rounded-lg shadow-xl"
         >
-          <h2 className="text-white mb-4 text-4xl sm:text-5xl lg:text-6xl font-extrabold">
-            Divi Cuentas
+          <h2 className="text-[#1e81b0] mb-4 text-4xl sm:text-5xl lg:text-6xl font-extrabold">
+            Divi Cuenta
           </h2>
 
           {/* Campo para el total de la cuenta */}
           <div className="mb-6">
             <label
               htmlFor="cuenta"
-              className="text-white block mb-2 text-sm font-medium"
+              className="text-black block mb-2 text-sm font-medium"
             >
               Gasto total a pagar:
             </label>
@@ -92,14 +97,31 @@ const Form = () => {
               id="cuenta"
               name="cuenta"
               value={cuenta}
-              onChange={(e) => setCuenta(formatearCLP(Number(eliminarFormato(e.target.value))))}
+              onChange={(e) =>
+                setCuenta(formatearCLP(Number(eliminarFormato(e.target.value))))
+              }
             />
           </div>
 
-          {/* Botón para agregar más ingresos */}
-          <Button onClick={handleAgregarIngreso} className="mb-4">
-            Agregar Ingreso
-          </Button>
+          <div className="flex flex-auto">
+            {/* Botón para eliminar ingresos */}
+            <button
+              type="button"
+              onClick={() => setIngresos(ingresos.slice(0, -1))}
+              className="mb-4 mx-4"
+            >
+              <IoPersonRemoveOutline className="text-black" />
+            </button>
+
+            {/* Botón para agregar más ingresos */}
+            <button
+              type="button"
+              onClick={handleAgregarIngreso}
+              className="mb-4 mx-4"
+            >
+              <IoPersonAddOutline className="text-black" />
+            </button>
+          </div>
 
           {/* Campos dinámicos de ingreso */}
           {ingresos.map((ingreso, index) => (
@@ -126,9 +148,9 @@ const Form = () => {
       {/* Mostrar los resultados si ya fueron calculados */}
       {porcentajes.length > 0 && (
         <div className="flex flex-col items-center justify-center w-full">
-          <div className="text-center bg-gray-800 max-w-md w-full p-6 rounded-xl mx-auto">
+          <div className="text-center bg-white max-w-md w-full p-6 rounded-xl mx-auto shadow-xl">
             {porcentajes.map((porcentaje, index) => (
-              <p key={index} className="mb-5 text-white">
+              <p key={index} className="mb-5 text-black">
                 A la persona {index + 1} le corresponde pagar:{" "}
                 {porcentaje.toFixed(2)}% del total
                 <br />

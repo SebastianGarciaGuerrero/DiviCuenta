@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap');
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,9 +13,9 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 206, 216, 209, 1;
-    --background-start-rgb: 206, 216, 209, 1;
-    --background-end-rgb: 206, 216, 209, 1;
+    --foreground-rgb: 56, 116, 120;
+    --background-start-rgb: 56, 116, 120;
+    --background-end-rgb: 56, 116, 120;
   }
 }
 
@@ -34,4 +37,13 @@ body {
 
 html {
   @apply scroll-smooth;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1s ease-out;
 }

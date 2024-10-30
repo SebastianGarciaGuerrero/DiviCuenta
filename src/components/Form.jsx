@@ -3,6 +3,8 @@ import { Button, TextInput } from "evergreen-ui";
 import { useCurrencyFormatter } from "../hooks/useCurrencyFormatter";
 import { IoPersonAddOutline } from "react-icons/io5";
 import { IoPersonRemoveOutline } from "react-icons/io5";
+import { IoInformationCircleOutline } from "react-icons/io5";
+import InfoTooltip from "./InfoTooltip";
 
 const Form = () => {
   // Definir el estado para los valores ingresados y los resultados
@@ -78,11 +80,13 @@ const Form = () => {
       <section id="form" className="py-10 flex items-center justify-center">
         <form
           onSubmit={calcularResultado}
-          className="flex flex-col items-center w-full max-w-md bg-white p-8 rounded-lg shadow-xl"
+          className="flex flex-col items-center w-full max-w-md bg-[#629584] p-8 rounded-lg shadow-xl"
         >
-          <h2 className="text-[#1e81b0] mb-4 text-4xl sm:text-5xl lg:text-6xl font-extrabold">
+          <h2 className="animate-fadeIn text-transparent bg-gradient-to-r from-[#243642] via-[#3a5a68] to-[#4e6f7c] bg-clip-text drop-shadow-lg mb-4 text-4xl sm:text-5xl lg:text-6xl font-extrabold uppercase tracking-wider">
             Divi Cuenta
           </h2>
+
+          <InfoTooltip />
 
           {/* Campo para el total de la cuenta */}
           <div className="mb-6">
@@ -138,7 +142,7 @@ const Form = () => {
           {/* Botón para calcular */}
           <Button
             type="submit"
-            className="h-10 w-20 flex items-center justify-center"
+            className="h-10 w-20 flex items-center justify-center bg-[#E2F1E7]"
           >
             Calcular
           </Button>

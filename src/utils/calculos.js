@@ -15,8 +15,8 @@ export const eliminarFormato = (valor) => {
 // Función para calcular porcentajes y cuentas
 export const calcularPorcentajes = (valor1, valor2, totalCuenta) => {
   const suma = valor1 + valor2;
-  const porcentaje1 = (valor1 * 100) / suma;
-  const porcentaje2 = (valor2 * 100) / suma;
+  const porcentaje1 = Math.round((valor1 * 100) / suma);
+  const porcentaje2 = Math.round((valor2 * 100) / suma);
   const cuenta1 = (porcentaje1 * totalCuenta) / 100;
   const cuenta2 = (porcentaje2 * totalCuenta) / 100;
 

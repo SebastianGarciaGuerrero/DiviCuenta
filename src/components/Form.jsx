@@ -88,24 +88,17 @@ const Form = () => {
 
           <InfoTooltip />
 
-          {/* Campo para el total de la cuenta */}
-          <div className="mb-6">
-            <label
-              htmlFor="cuenta"
-              className="text-black block mb-2 text-sm font-medium"
-            >
-              Gasto total a pagar:
-            </label>
-            <TextInput
-              type="text"
-              id="cuenta"
-              name="cuenta"
-              value={cuenta}
-              onChange={(e) =>
-                setCuenta(formatearCLP(Number(eliminarFormato(e.target.value))))
-              }
-            />
-          </div>
+          {/* Campos dinámicos de ingreso */}
+          {ingresos.map((ingreso, index) => (
+            <div key={index} className="mb-4">
+              <TextInput
+                type="text"
+                value={ingreso.valor}
+                onChange={handleIngresoChange(index)}
+                placeholder={`Ingreso ${index + 1}`}
+              />
+            </div>
+          ))}
 
           <div className="flex flex-auto">
             {/* Botón para eliminar ingresos */}
@@ -127,17 +120,24 @@ const Form = () => {
             </button>
           </div>
 
-          {/* Campos dinámicos de ingreso */}
-          {ingresos.map((ingreso, index) => (
-            <div key={index} className="mb-4">
-              <TextInput
-                type="text"
-                value={ingreso.valor}
-                onChange={handleIngresoChange(index)}
-                placeholder={`Ingreso ${index + 1}`}
-              />
-            </div>
-          ))}
+          {/* Campo para el total de la cuenta */}
+          <div className="mb-6">
+            <label
+              htmlFor="cuenta"
+              className="text-black block mb-2 text-sm font-medium"
+            >
+              Gasto total a pagar:
+            </label>
+            <TextInput
+              type="text"
+              id="cuenta"
+              name="cuenta"
+              value={cuenta}
+              onChange={(e) =>
+                setCuenta(formatearCLP(Number(eliminarFormato(e.target.value))))
+              }
+            />
+          </div>
 
           {/* Botón para calcular */}
           <Button

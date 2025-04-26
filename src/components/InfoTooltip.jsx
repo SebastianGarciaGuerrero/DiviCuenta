@@ -11,7 +11,7 @@ const InfoTooltip = () => {
         
         {/* Tooltip */}
         <div className="absolute bottom-full mb-2 hidden group-hover:block bg-gray-700 text-white text-xs rounded py-1 px-2 whitespace-nowrap">
-          Con esta app puedes dividir gastos de manera justa entre amigos y familiares.
+          ¡Divide gastos de manera justa entre amigos y familiares!
         </div>
       </div>
     </div>

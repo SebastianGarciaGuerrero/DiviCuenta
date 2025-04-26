@@ -3,7 +3,6 @@ import { Button, TextInput } from "evergreen-ui";
 import { useCurrencyFormatter } from "../hooks/useCurrencyFormatter";
 import { IoPersonAddOutline } from "react-icons/io5";
 import { IoPersonRemoveOutline } from "react-icons/io5";
-import { IoInformationCircleOutline } from "react-icons/io5";
 import InfoTooltip from "./InfoTooltip";
 
 const Form = () => {
@@ -12,6 +11,7 @@ const Form = () => {
   const [porcentajes, setPorcentajes] = useState([]);
   const [cuentas, setCuentas] = useState([]);
   const [cuenta, setCuenta] = useState("");
+  const [mostrarPopup, setMostrarPopup] = useState(false);
 
   // Usar el hook para formatear valores CLP
   const { formatearCLP, eliminarFormato } = useCurrencyFormatter();
@@ -73,6 +73,7 @@ const Form = () => {
     // Actualizar el estado con los resultados
     setPorcentajes(nuevosPorcentajes);
     setCuentas(nuevasCuentas);
+    setMostrarPopup(true);
   };
 
   return (
@@ -150,9 +151,9 @@ const Form = () => {
       </section>
 
       {/* Mostrar los resultados si ya fueron calculados */}
-      {porcentajes.length > 0 && (
-        <div className="flex flex-col items-center justify-center w-full">
-          <div className="text-center bg-white max-w-md w-full p-6 rounded-xl mx-auto shadow-xl">
+      {mostrarPopup && porcentajes.length > 0 && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="text-center bg-white max-w-md w-full p-6 rounded-xl mx-auto shadow-xl relative">
             {porcentajes.map((porcentaje, index) => (
               <p key={index} className="mb-5 text-black">
                 A la persona {index + 1} le corresponde pagar:{" "}
@@ -161,6 +162,13 @@ const Form = () => {
                 lo que corresponde a: {formatearCLP(cuentas[index])}
               </p>
             ))}
+            {/* Botón para cerrar */}
+            <button
+              onClick={() => setMostrarPopup(false)}
+              className="mt-4 px-4 py-2 bg-[#629584] text-white rounded hover:bg-[#4e7f6c]"
+            >
+              Cerrar
+            </button>
           </div>
         </div>
       )}

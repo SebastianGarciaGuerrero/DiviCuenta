@@ -83,8 +83,8 @@ const Form = () => {
           onSubmit={calcularResultado}
           className="flex flex-col items-center w-full max-w-md bg-[#629584] p-8 rounded-lg shadow-xl"
         >
-          <h2 className="animate-fadeIn text-transparent bg-gradient-to-r from-[#243642] via-[#3a5a68] to-[#4e6f7c] bg-clip-text drop-shadow-lg mb-4 text-4xl sm:text-5xl lg:text-6xl font-extrabold uppercase tracking-wider">
-            Divi Cuenta
+          <h2 className="animate-fadeIn text-transparent bg-[#243642] bg-clip-text drop-shadow-lg mb-4 text-4xl sm:text-5xl lg:text-6xl font-extrabold uppercase tracking-wider">
+            DiviCuentas
           </h2>
 
           <InfoTooltip />
